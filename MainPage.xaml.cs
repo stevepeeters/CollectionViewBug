@@ -2,23 +2,30 @@
 
 public partial class MainPage : ContentPage
 {
-	int count = 0;
-
 	public MainPage()
 	{
 		InitializeComponent();
 	}
 
-	private void OnCounterClicked(object sender, EventArgs e)
+	private void OnPopOutContent1Clicked(object sender, EventArgs e)
 	{
-		count++;
-
-		if (count == 1)
-			CounterBtn.Text = $"Clicked {count} time";
-		else
-			CounterBtn.Text = $"Clicked {count} times";
-
-		SemanticScreenReader.Announce(CounterBtn.Text);
+		PopOutContent(Content1);
 	}
+
+	private void OnPopOutContent2Clicked(object sender, EventArgs e)
+	{
+        PopOutContent(Content2);
+    }
+
+	private void PopOutContent(Border parent)
+	{
+		View content = parent.Content;
+		parent.Content = null;
+
+        ContentPage page = new() { Content = content };
+        Window window = new() { Page = page };
+        
+		Application.Current.OpenWindow(window);
+    }
 }
 
